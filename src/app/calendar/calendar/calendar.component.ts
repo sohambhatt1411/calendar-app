@@ -44,33 +44,10 @@ export class CalendarComponent {
         console.log('Appointment saved:', result);
       }
     });
-    // selectedTime: string;
+  }
 
-    // constructor() {
-    //   this.selectedTime = '12:00'; // Default time
-    // }
-
-
-
-    // hours: number[] = Array.from({ length: 24 }, (_, i) => i);
-    // minutes: number[] = Array.from({ length: 60 }, (_, i) => i);
-    // selectedHour: number = 12;
-    // selectedMinute: number = 0;
-    // timeChange: any;
-    // ngOnChanges() {
-    //   this.emitTime();
-    // }
-    // emitTime() {
-    //   const time = `${this.pad(this.selectedHour)}:${this.pad(this.selectedMinute)}`;
-    //   this.timeChange.emit(time);
-    // }
-    // pad(value: number): string {
-    //   return value < 10 ? '0' + value : value.toString();
-    // }
-
-    onTimeChange(event: any): void {
-      const selectedTime = event.value,
-      console.log('Selected Time:', selectedTime);
-    }
+  onTimeChange(event: any): void {
+    const selectedTime = event.value;
+    console.log('Selected Time:', selectedTime);
   }
 }
