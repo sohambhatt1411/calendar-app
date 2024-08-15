@@ -29,7 +29,7 @@ export class CalendarComponent {
   selectedDate: Date | null = null;
   appointmentForm!: FormGroup;
   @ViewChild('exampleModal') exampleModal!: ElementRef;
-  constructor(private fb: FormBuilder,private storageService: StorageService
+  constructor(private fb: FormBuilder, private storageService: StorageService
   ) {
 
     this.appointmentForm = this.fb.group({
@@ -46,7 +46,7 @@ export class CalendarComponent {
       console.log('Form Submitted:', this.appointmentForm.value);
       this.storageService.setData('appointment', this.appointmentForm.value);
       // Close the modal
-      this.exampleModal.nativeElement.click();     
+      this.exampleModal.nativeElement.click();
 
       // Reset the form after submission
       this.appointmentForm.reset();
@@ -54,9 +54,9 @@ export class CalendarComponent {
       this.appointmentForm.markAllAsTouched();
     }
   }
-// Optionally, you can retrieve data when needed
-loadAppointment() {
-  const savedAppointment = this.storageService.getData('appointment');
- 
-}
+  // Optionally, you can retrieve data when needed
+  loadAppointment() {
+    const savedAppointment = this.storageService.getData('appointment');
+
+  }
 }
