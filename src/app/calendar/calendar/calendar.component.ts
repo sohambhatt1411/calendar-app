@@ -46,6 +46,8 @@ export class CalendarComponent {
   events:any;
   currentEvent: any;
   isEditing = false;
+
+  tempselectdata:any;
   constructor(private fb: FormBuilder,private storageService: StorageService,public cdr: ChangeDetectorRef
   ) {
     
@@ -105,9 +107,18 @@ onSubmit() {
       this.calendar.updateTodaysDate();
     }
 
+    if(this.isEditing){
+      this.events= this.appointments.filter(appointment => 
+        moment(appointment.date).format('YYYY-MM-DD') === this.tempselectdata
+      );
+    }
+    
+
     // Reset editing state
     this.isEditing = false;
     this.currentEvent = null;
+
+  
   } else {
     this.appointmentForm.markAllAsTouched();
   }
@@ -129,6 +140,7 @@ onSubmit() {
   onDateSelected(date:any){
    
     const dateStr = moment(date).format('YYYY-MM-DD');
+    this.tempselectdata = dateStr;
     const hasAppointment = this.appointments.some(appointment => 
       moment(appointment.date).format('YYYY-MM-DD') === dateStr
     );

@@ -19,7 +19,7 @@
     <div class="timeline">
       <div *ngFor="let event of events" class="timeline-event">
         <div class="timeline-time">Start Time : {{ event.startTime }}</div>
-        <div class="timeline-time2">End Time : {{ event.startTime }}</div>
+        <div class="timeline-time2">End Time : {{ event.endTime }}</div>
         <div class="timeline-content" >
           <h2>{{ event.title }}</h2>
           <p *ngIf="event.description">{{ event.description }}</p>
@@ -45,7 +45,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{ isEditing ? 'Edit Appointment' : 'Add Appointment' }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
