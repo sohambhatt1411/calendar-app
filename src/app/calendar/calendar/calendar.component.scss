@@ -32,3 +32,8 @@
     max-width: 500px;
   }
   
+
+  ::ng-deep .mat-calendar-body-cell.has-appointment {
+    background-color: #ffcccc; /* Change to desired highlight color */
+    border-radius: 50%;
+  }
