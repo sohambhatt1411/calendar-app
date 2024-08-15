@@ -29,9 +29,7 @@ export class CalendarComponent {
   selectedDate: Date | null = null;
   appointmentForm!: FormGroup;
   @ViewChild('exampleModal') exampleModal!: ElementRef;
-
-  appointments: any[] = []; // Store all appointments
-  constructor(private fb: FormBuilder, private storageService: StorageService
+  constructor(private fb: FormBuilder,private storageService: StorageService
   ) {
 
     this.appointmentForm = this.fb.group({
@@ -73,20 +71,9 @@ export class CalendarComponent {
       this.appointmentForm.markAllAsTouched();
     }
   }
-  // Optionally, you can retrieve data when needed
-  loadAppointment() {
-    const savedAppointment = this.storageService.getData('appointment');
-
-  }
-  // Highlight dates with appointments using dateClass
-  dateClass = (date: Date) => {
-    const dateStr = moment(date).format('YYYY-MM-DD');
-    
-    // Check if any appointment in the array has the current date
-    const hasAppointment = this.appointments.some(appointment => 
-      moment(appointment.date).format('YYYY-MM-DD') === dateStr
-    );
-
-    return hasAppointment ? 'has-appointment' : '';
-  };
+// Optionally, you can retrieve data when needed
+loadAppointment() {
+  const savedAppointment = this.storageService.getData('appointment');
+ 
+}
 }

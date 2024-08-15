@@ -1,16 +1,16 @@
 <mat-toolbar color="primary">
-  <span>Calendar</span>
-  <span class="spacer"></span>
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
+  <div class="main-nav">
+    <span>Calendar</span>
+  <button type="button" class="btn btn-primary modl-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Book Appointment
   </button>
+  </div>
 </mat-toolbar>
 <div class="main-container">
   <div class="calender">
     <div class="calendar-container">
       <mat-calendar [(selected)]="selectedDate" [dateClass]="dateClass"></mat-calendar>
     </div>
-
     <div class="date-info">
       <h2>Selected Date: {{ selectedDate | date }}</h2>
     </div>
@@ -36,54 +36,62 @@
           <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" id="title" formControlName="title" class="form-control" />
-            <div *ngIf="appointmentForm.get('title')?.touched && appointmentForm.get('title')?.hasError('required')" class="invalid-feedback d-block">
+            <div *ngIf="appointmentForm.get('title')?.touched && appointmentForm.get('title')?.hasError('required')"
+              class="invalid-feedback d-block">
               Title is required
             </div>
           </div>
-        
+
           <!-- Description Field -->
           <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea id="description" formControlName="description" class="form-control"></textarea>
-            <div *ngIf="appointmentForm.get('description')?.touched && appointmentForm.get('description')?.hasError('required')" class="invalid-feedback d-block">
+            <div
+              *ngIf="appointmentForm.get('description')?.touched && appointmentForm.get('description')?.hasError('required')"
+              class="invalid-feedback d-block">
               Description is required
             </div>
           </div>
-        
+
           <!-- Date Field -->
           <div class="mb-3">
             <label for="date" class="form-label">Select Date</label>
             <input type="date" id="date" formControlName="date" class="form-control" />
-            <div *ngIf="appointmentForm.get('date')?.touched && appointmentForm.get('date')?.hasError('required')" class="invalid-feedback d-block">
+            <div *ngIf="appointmentForm.get('date')?.touched && appointmentForm.get('date')?.hasError('required')"
+              class="invalid-feedback d-block">
               Date is required
             </div>
           </div>
-        
+
           <!-- Start Time Field -->
           <div class="mb-3">
             <label for="startTime" class="form-label">Start Time</label>
             <input type="time" id="startTime" formControlName="startTime" class="form-control" />
-            <div *ngIf="appointmentForm.get('startTime')?.touched && appointmentForm.get('startTime')?.hasError('required')" class="invalid-feedback d-block">
+            <div
+              *ngIf="appointmentForm.get('startTime')?.touched && appointmentForm.get('startTime')?.hasError('required')"
+              class="invalid-feedback d-block">
               Start time is required
             </div>
           </div>
-        
+
           <!-- End Time Field -->
           <div class="mb-3">
             <label for="endTime" class="form-label">End Time</label>
             <input type="time" id="endTime" formControlName="endTime" class="form-control" />
-            <div *ngIf="appointmentForm.get('endTime')?.touched && appointmentForm.get('endTime')?.hasError('required')" class="invalid-feedback d-block">
+            <div *ngIf="appointmentForm.get('endTime')?.touched && appointmentForm.get('endTime')?.hasError('required')"
+              class="invalid-feedback d-block">
               End time is required
             </div>
           </div>
-        
+
           <!-- Buttons -->
           <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" #exampleModal aria-label="Close">Cancel</button>
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" #exampleModal
+              aria-label="Close">Cancel</button>
             <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </form>
-        
+
       </div>
       <div class="modal-footer">
         <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
