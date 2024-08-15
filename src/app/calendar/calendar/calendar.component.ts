@@ -10,6 +10,11 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { StorageService } from '../../service/storage.service';
 import moment from 'moment';
 import { MatCalendar } from '@angular/material/datepicker';
+export interface TimelineEvent {
+  time: string;
+  title: string;
+  description?: string;
+}
 
 @Component({
   selector: 'app-calendar',
@@ -27,6 +32,8 @@ import { MatCalendar } from '@angular/material/datepicker';
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })
+
+
 export class CalendarComponent {
   selectedDate: Date | null = null;
   appointmentForm!: FormGroup;
@@ -105,13 +112,14 @@ export class CalendarComponent {
   };
 
 
-  // Chart
-  timeIntervals = [
-    { startTime: '4 AM', endTime: '5 AM' },
-    { startTime: '5 AM', endTime: '6 AM' },
-    // ... other intervals
-    { startTime: '11:30 AM', endTime: '12:30 PM', title: 'No title' },
-    // ... remaining intervals
+  events: TimelineEvent[] = [
+    { time: '9:00 AM', title: 'Event 1', description: 'Description for event 1' },
+    { time: '11:30 AM', title: 'Event 2', description: 'Description for event 2' },
+    { time: '2:00 PM', title: 'Event 3', description: 'Description for event 3' },
+    { time: '2:00 PM', title: 'Event 3', description: 'Description for event 3' },
+    { time: '2:00 PM', title: 'Event 3', description: 'Description for event 3' },
+    { time: '2:00 PM', title: 'Event 3', description: 'Description for event 3' },
+    // Add more events here
   ];
 
   

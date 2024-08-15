@@ -16,7 +16,16 @@
     </div>
   </div>
   <div class="cal-data">
-
+    <div class="timeline">
+      <div *ngFor="let event of events" class="timeline-event">
+        <div class="timeline-time">{{ event.time }}</div>
+        <div class="timeline-content">
+          <h4>{{ event.title }}</h4>
+          <p *ngIf="event.description">{{ event.description }}</p>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </div>
 
