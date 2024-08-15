@@ -1,48 +1,51 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AppointmentdialogComponent } from '../appointmentdialog/appointmentdialog.component';
-
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
     MatToolbarModule,
-    MatButtonModule, FormsModule],
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent {
   selectedDate: Date | null = null;
+  appointmentForm!: FormGroup;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(private fb: FormBuilder
+  ) {
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AppointmentdialogComponent, {
-      width: '400px',
-      data: {
-        date: this.selectedDate,
-        title: '',
-        description: '',
-        startTime: '',
-        endTime: ''
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Appointment saved:', result);
-      }
+    this.appointmentForm = this.fb.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      date: ['', Validators.required],
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required],
     });
   }
+
+  onSubmit() {
+    if (this.appointmentForm.valid) {
+      console.log('Form Submitted:', this.appointmentForm.value);
+    } else {
+      this.appointmentForm.markAllAsTouched();
+    }
+  }
+
 }

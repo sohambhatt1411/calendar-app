@@ -1,7 +1,9 @@
 <mat-toolbar color="primary">
   <span>Calendar</span>
   <span class="spacer"></span>
-  <button mat-button (click)="openDialog()">Add Appointment</button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button>
 </mat-toolbar>
 <div class="main-container">
   <div class="calender">
@@ -15,5 +17,78 @@
   </div>
   <div class="cal-data">
 
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
+          <!-- Title Field -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" formControlName="title" class="form-control" />
+            <div *ngIf="appointmentForm.get('title')?.touched && appointmentForm.get('title')?.hasError('required')" class="invalid-feedback d-block">
+              Title is required
+            </div>
+          </div>
+        
+          <!-- Description Field -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" formControlName="description" class="form-control"></textarea>
+            <div *ngIf="appointmentForm.get('description')?.touched && appointmentForm.get('description')?.hasError('required')" class="invalid-feedback d-block">
+              Description is required
+            </div>
+          </div>
+        
+          <!-- Date Field -->
+          <div class="mb-3">
+            <label for="date" class="form-label">Select Date</label>
+            <input type="date" id="date" formControlName="date" class="form-control" />
+            <div *ngIf="appointmentForm.get('date')?.touched && appointmentForm.get('date')?.hasError('required')" class="invalid-feedback d-block">
+              Date is required
+            </div>
+          </div>
+        
+          <!-- Start Time Field -->
+          <div class="mb-3">
+            <label for="startTime" class="form-label">Start Time</label>
+            <input type="time" id="startTime" formControlName="startTime" class="form-control" />
+            <div *ngIf="appointmentForm.get('startTime')?.touched && appointmentForm.get('startTime')?.hasError('required')" class="invalid-feedback d-block">
+              Start time is required
+            </div>
+          </div>
+        
+          <!-- End Time Field -->
+          <div class="mb-3">
+            <label for="endTime" class="form-label">End Time</label>
+            <input type="time" id="endTime" formControlName="endTime" class="form-control" />
+            <div *ngIf="appointmentForm.get('endTime')?.touched && appointmentForm.get('endTime')?.hasError('required')" class="invalid-feedback d-block">
+              End time is required
+            </div>
+          </div>
+        
+          <!-- Buttons -->
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+        
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
   </div>
 </div>
