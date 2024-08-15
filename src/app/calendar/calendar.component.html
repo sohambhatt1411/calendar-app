@@ -1,0 +1,58 @@
+<mat-toolbar color="primary">
+  <span>Calendar Application</span>
+</mat-toolbar>
+
+<div class="calendar-container">
+  <mat-calendar [(selected)]="selectedDate"></mat-calendar>
+</div>
+
+<div class="date-info">
+  <h2>Selected Date: {{ selectedDate | date }}</h2>
+</div>
+
+<!-- Add Appointment Form -->
+<div class="appointment-form">
+  <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" placeholder="Appointment Title" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" placeholder="Appointment Description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="startDate" required />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Start Time</mat-label>
+      <input matInput type="time" formControlName="startTime" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>End Time</mat-label>
+      <input matInput type="time" formControlName="endTime" required />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Add Appointment</button>
+  </form>
+</div>
+
+
+<!-- <div cdkDropList (cdkDropListDropped)="drop($event)" class="appointments-list" *ngIf="appointments.length > 0">
+  <h3>Your Appointments:</h3>
+  <div *ngFor="let appointment of appointments" cdkDrag>
+    <strong>{{ appointment.title }}</strong> - {{ appointment.startDate | date:'short' }} <br />
+    <em>{{ appointment.description }}</em>
+    <button mat-icon-button (click)="deleteAppointment(i)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div> -->
+
