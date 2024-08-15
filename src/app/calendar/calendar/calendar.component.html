@@ -1,0 +1,51 @@
+<div class="calendar-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Calendar</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="calendar-grid">
+          <div *ngFor="let day of days" class="calendar-day">
+            <h3>{{ day.date | date: 'd' }}</h3>
+            <div
+              class="appointments"
+              *ngFor="let appointment of day.appointments"
+              cdkDrag
+              [cdkDragData]="appointment"
+            >
+              {{ appointment.title }}
+              <button (click)="deleteAppointment(day, appointment)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Add Appointment</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="appointmentForm" (ngSubmit)="addAppointment()">
+          <mat-form-field appearance="fill">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title">
+            <mat-error *ngIf="appointmentForm.get('title')?.hasError('required')">
+              Title is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Date</mat-label>
+            <input matInput formControlName="date" [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="appointmentForm.get('date')?.hasError('required')">
+              Date is required
+            </mat-error>
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit">Add Appointment</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
