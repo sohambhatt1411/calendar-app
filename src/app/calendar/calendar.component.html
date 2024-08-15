@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+    <span>Calendar</span>
+  </mat-toolbar>
+  
+  <div class="calendar-container">
+    <mat-calendar [(selected)]="selectedDate"></mat-calendar>
+  </div>
+  
+  <div class="date-info">
+    <h2>Selected Date: {{ selectedDate | date }}</h2>
+  </div>
+  
