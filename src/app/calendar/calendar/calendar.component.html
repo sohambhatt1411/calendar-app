@@ -12,6 +12,25 @@
     </div>
   </div>
   <div class="cal-data">
+    <!-- <input type="time" [(ngModel)]="selectedTime"> -->
+    <!-- <div class="time-picker">
+      <select [(ngModel)]="selectedHour">
+        <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
+      </select>
+      :
+      <select [(ngModel)]="selectedMinute">
+        <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
+      </select>
+    </div> -->
+
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a time</mat-label>
+      <input matInput [matDatepicker]="picker" type="'time'" (dateChange)="onTimeChange($event)">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    
+    
 
   </div>
 </div>
