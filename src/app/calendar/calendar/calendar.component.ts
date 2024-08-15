@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -9,6 +9,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StorageService } from '../../service/storage.service';
 import moment from 'moment'; // Import moment.js to handle date formatting
+
+
+
+import { MatCalendar } from '@angular/material/datepicker'; // Import MatCalendar
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -29,8 +33,11 @@ export class CalendarComponent {
   selectedDate: Date | null = null;
   appointmentForm!: FormGroup;
   @ViewChild('exampleModal') exampleModal!: ElementRef;
+
+  @ViewChild('calendar') calendar!: MatCalendar<Date>; // Reference to the calendar
   appointments: any[] = []; // Store all appointments
-  constructor(private fb: FormBuilder,private storageService: StorageService
+  
+  constructor(private fb: FormBuilder,private storageService: StorageService,public cdr: ChangeDetectorRef
   ) {
 
     this.appointmentForm = this.fb.group({
@@ -58,16 +65,29 @@ export class CalendarComponent {
 
       // Save the updated appointments array to localStorage
       this.storageService.setAppointments(this.appointments);
-
+      this.cdr.detectChanges();
       console.log('Form Submitted and Data Saved:', appointmentData);
+
+
+      
 
       console.log('Form Submitted:', this.appointmentForm.value);
       this.storageService.setData('appointment', this.appointmentForm.value);
       // Close the modal
       this.exampleModal.nativeElement.click();
 
+      //  this.cdr.detectChanges();
+
       // Reset the form after submission
       this.appointmentForm.reset();
+      // Force calendar to refresh
+      this.loadAllAppointments(); // Reload appointments
+      this.cdr.detectChanges();
+
+      // Manually update the calendar view
+      if (this.calendar) {
+        this.calendar.updateTodaysDate(); // Assuming the calendar component has this method
+      }
     } else {
       this.appointmentForm.markAllAsTouched();
     }
@@ -85,4 +105,7 @@ export class CalendarComponent {
 
     return hasAppointment ? 'has-appointment' : '';
   };
+
+
+  
 }

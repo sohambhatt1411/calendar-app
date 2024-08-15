@@ -41,3 +41,17 @@ mat-calendar {
   width: 100%;
   max-width: 500px;
 }
+::ng-deep .mat-calendar-body-cell.has-appointment {
+  background-color: #ffcccc; /* Change to the color you prefer */
+  border-radius: 50%;
+}
+
+.has-appointment .mat-calendar-body-cell-content {
+  background-color: #ffcc00;
+  border-radius: 50%;
+}
+
+::ng-deep .mat-calendar-body-cell.has-appointment .mat-calendar-body-cell-content {
+  background-color: #ffcc00; /* Highlight color */
+  border-radius: 50%;
+}
