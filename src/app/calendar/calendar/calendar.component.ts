@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StorageService } from '../../service/storage.service';
-
+import * as moment from 'moment'; // Import moment.js to handle date formatting
 @Component({
   selector: 'app-calendar',
   standalone: true,

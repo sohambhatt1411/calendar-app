@@ -27,4 +27,13 @@ export class StorageService {
   clearAllData(): void {
     localStorage.clear();
   }
+  setAppointment(date: string, appointment: any): void {
+    const existingAppointments = this.getData(date) || [];
+    existingAppointments.push(appointment);
+    this.setData(date, existingAppointments);
+  }
+  
+  getAppointmentsByDate(date: string): any[] {
+    return this.getData(date) || [];
+  }
 }
