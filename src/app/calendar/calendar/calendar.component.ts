@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { StorageService } from '../../service/storage.service';
 import moment from 'moment';
 import { MatCalendar } from '@angular/material/datepicker';
+import {MatIconModule} from '@angular/material/icon';
 export interface TimelineEvent {
   time: string;
   title: string;
@@ -27,7 +28,7 @@ export interface TimelineEvent {
     MatToolbarModule,
     MatButtonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,MatIconModule
   ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
@@ -39,9 +40,12 @@ export class CalendarComponent {
   appointmentForm!: FormGroup;
   hours: Date[] = [];
   @ViewChild('exampleModal') exampleModal!: ElementRef;
+  @ViewChild('openModel') openModel!: ElementRef;
   @ViewChild('calendar') calendar!: MatCalendar<Date>; // Reference to the calendar
   appointments: any[] = []; // Store all appointments
-  
+  events:any;
+  currentEvent: any;
+  isEditing = false;
   constructor(private fb: FormBuilder,private storageService: StorageService,public cdr: ChangeDetectorRef
   ) {
     
@@ -60,43 +64,54 @@ export class CalendarComponent {
   this.appointments = this.storageService.getAppointments();
 }
 
-  onSubmit() {
-    if (this.appointmentForm.valid) {
+onSubmit() {
+  if (this.appointmentForm.valid) {
+    const formValue = this.appointmentForm.value;
 
-      const appointmentData = this.appointmentForm.value;
+    if (this.isEditing && this.currentEvent) {
+      // Update the existing appointment
+      const updatedEvent = {
+        ...this.currentEvent, // retain the ID and original event data
+        ...formValue // update the changed fields
+      };
 
-      // Add the new appointment to the array
-      this.appointments.push(appointmentData);
-
-      // Save the updated appointments array to localStorage
-      this.storageService.setAppointments(this.appointments);
-      this.cdr.detectChanges();
-      console.log('Form Submitted and Data Saved:', appointmentData);
-
-
-      
-
-      console.log('Form Submitted:', this.appointmentForm.value);
-      this.storageService.setData('appointment', this.appointmentForm.value);
-      // Close the modal
-      this.exampleModal.nativeElement.click();
-
-      //  this.cdr.detectChanges();
-
-      // Reset the form after submission
-      this.appointmentForm.reset();
-      // Force calendar to refresh
-      this.loadAllAppointments(); // Reload appointments
-      this.cdr.detectChanges();
-
-      // Manually update the calendar view
-      if (this.calendar) {
-        this.calendar.updateTodaysDate(); // Assuming the calendar component has this method
+      const index = this.appointments.findIndex(app => app.id === this.currentEvent.id);
+      if (index !== -1) {
+        this.appointments[index] = updatedEvent;
+        this.storageService.setAppointments(this.appointments);
+        this.onDateSelected(this.selectedDate); // Refresh the events list
       }
     } else {
-      this.appointmentForm.markAllAsTouched();
+      // Add new appointment with a unique ID (using Date.now() as a unique identifier)
+      const newEvent = {
+        id: Date.now(), // unique identifier for the new event
+        ...formValue
+      };
+      this.appointments.push(newEvent);
+      this.storageService.setAppointments(this.appointments);
+      this.onDateSelected(this.selectedDate); // Refresh the events list
     }
+
+    // Close the modal
+    this.exampleModal.nativeElement.click();
+
+    // Reset the form after submission
+    this.appointmentForm.reset();
+    this.loadAllAppointments(); // Reload appointments
+    this.cdr.detectChanges();
+
+    // Manually update the calendar view
+    if (this.calendar) {
+      this.calendar.updateTodaysDate();
+    }
+
+    // Reset editing state
+    this.isEditing = false;
+    this.currentEvent = null;
+  } else {
+    this.appointmentForm.markAllAsTouched();
   }
+}
 
 
   // Highlight dates with appointments using dateClass
@@ -111,16 +126,66 @@ export class CalendarComponent {
     return hasAppointment ? 'has-appointment' : '';
   };
 
+  onDateSelected(date:any){
+   
+    const dateStr = moment(date).format('YYYY-MM-DD');
+    const hasAppointment = this.appointments.some(appointment => 
+      moment(appointment.date).format('YYYY-MM-DD') === dateStr
+    );
+    console.log(hasAppointment);
+    if(hasAppointment){
+      this.events= this.appointments.filter(appointment => 
+        moment(appointment.date).format('YYYY-MM-DD') === dateStr
+      );
+    }
+  }
 
-  events: TimelineEvent[] = [
-    { time: '9:00 AM', title: 'Event 1', description: 'Description for event 1' },
-    { time: '11:30 AM', title: 'Event 2', description: 'Description for event 2' },
-    { time: '2:00 PM', title: 'Event 3', description: 'Description for event 3' },
-    { time: '2:00 PM', title: 'Event 3', description: 'Description for event 3' },
-    { time: '2:00 PM', title: 'Event 3', description: 'Description for event 3' },
-    { time: '2:00 PM', title: 'Event 3', description: 'Description for event 3' },
-    // Add more events here
-  ];
+  editEvent(event: any) {
+    // Implement the edit functionality here
+    // Open a dialog or navigate to an edit page
+    console.log('Edit event:', event);
+    // Example: this.dialog.open(EditEventDialogComponent, { data: event });
+   
+      // Prefill the form with the event data
+      this.appointmentForm.patchValue({
+        title: event.title,
+        description: event.description,
+        date: event.date,
+        startTime: event.startTime,
+        endTime: event.endTime,
+      });    
+      this.isEditing = true;
+      this.currentEvent = event;
+      this.openModel.nativeElement.click();
+   
+  }
 
-  
+  openModal(event?: any) {
+    if (event) {
+      // Edit mode
+      this.isEditing = true;
+      this.currentEvent = event;
+      this.appointmentForm.patchValue({
+        title: event.title,
+        description: event.description,
+        date: moment(event.date).format('YYYY-MM-DD'),
+        startTime: event.startTime,
+        endTime: event.endTime
+      });
+    } else {
+      // Add mode
+      this.isEditing = false;
+      this.currentEvent = null;
+      this.appointmentForm.reset();
+    }
+  }
+  deleteEvent(event: any) {
+    // Confirm deletion
+    if (confirm('Are you sure you want to delete this event?')) {
+      this.appointments = this.appointments.filter(app => app !== event);
+      this.storageService.setAppointments(this.appointments);
+      this.onDateSelected(this.selectedDate); // Refresh the events list
+    }
+  }
+   
 }

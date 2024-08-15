@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <div class="main-nav">
     <span>Calendar</span>
-  <button type="button" class="btn btn-primary modl-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <button type="button" #openModel class="btn btn-primary modl-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Book Appointment
   </button>
   </div>
@@ -9,7 +9,7 @@
 <div class="main-container">
   <div class="calender">
     <div class="calendar-container">
-      <mat-calendar #calendar [(selected)]="selectedDate" [dateClass]="dateClass"></mat-calendar>
+      <mat-calendar #calendar [(selected)]="selectedDate" [dateClass]="dateClass" (selectedChange)="onDateSelected($event)"></mat-calendar>
     </div>
     <div class="date-info">
       <h2>Selected Date: {{ selectedDate | date }}</h2>
@@ -18,10 +18,19 @@
   <div class="cal-data">
     <div class="timeline">
       <div *ngFor="let event of events" class="timeline-event">
-        <div class="timeline-time">{{ event.time }}</div>
-        <div class="timeline-content">
-          <h4>{{ event.title }}</h4>
+        <div class="timeline-time">Start Time : {{ event.startTime }}</div>
+        <div class="timeline-time2">End Time : {{ event.startTime }}</div>
+        <div class="timeline-content" >
+          <h2>{{ event.title }}</h2>
           <p *ngIf="event.description">{{ event.description }}</p>
+          <div class="timeline-actions">
+            <button mat-icon-button (click)="editEvent(event)">
+              <mat-icon >edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteEvent(event)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </div>
       </div>
     </div>
