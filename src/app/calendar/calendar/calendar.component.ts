@@ -45,9 +45,4 @@ export class CalendarComponent {
       }
     });
   }
-
-  onTimeChange(event: any): void {
-    const selectedTime = event.value;
-    console.log('Selected Time:', selectedTime);
-  }
 }
