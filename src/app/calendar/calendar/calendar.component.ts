@@ -8,11 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StorageService } from '../../service/storage.service';
-import moment from 'moment'; // Import moment.js to handle date formatting
+import moment from 'moment';
+import { MatCalendar } from '@angular/material/datepicker';
 
-
-
-import { MatCalendar } from '@angular/material/datepicker'; // Import MatCalendar
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -32,14 +30,14 @@ import { MatCalendar } from '@angular/material/datepicker'; // Import MatCalenda
 export class CalendarComponent {
   selectedDate: Date | null = null;
   appointmentForm!: FormGroup;
+  hours: Date[] = [];
   @ViewChild('exampleModal') exampleModal!: ElementRef;
-
   @ViewChild('calendar') calendar!: MatCalendar<Date>; // Reference to the calendar
   appointments: any[] = []; // Store all appointments
   
   constructor(private fb: FormBuilder,private storageService: StorageService,public cdr: ChangeDetectorRef
   ) {
-
+    
     this.appointmentForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -106,6 +104,15 @@ export class CalendarComponent {
     return hasAppointment ? 'has-appointment' : '';
   };
 
+
+  // Chart
+  timeIntervals = [
+    { startTime: '4 AM', endTime: '5 AM' },
+    { startTime: '5 AM', endTime: '6 AM' },
+    // ... other intervals
+    { startTime: '11:30 AM', endTime: '12:30 PM', title: 'No title' },
+    // ... remaining intervals
+  ];
 
   
 }
