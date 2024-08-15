@@ -54,5 +54,9 @@ export class CalendarComponent {
       this.appointmentForm.markAllAsTouched();
     }
   }
-
+// Optionally, you can retrieve data when needed
+loadAppointment() {
+  const savedAppointment = this.storageService.getData('appointment');
+ 
+}
 }
