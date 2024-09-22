@@ -149,7 +149,12 @@ onSubmit() {
       this.events= this.appointments.filter(appointment => 
         moment(appointment.date).format('YYYY-MM-DD') === dateStr
       );
+    }else{
+      this.events = [];
     }
+    this.cdr.detectChanges();
+
+
   }
 
   editEvent(event: any) {
