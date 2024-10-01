@@ -28,8 +28,8 @@ export class KonvaimgComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.initKonva();
     // this.loadimg('https://socialmediauploadv1.s3.ap-south-1.amazonaws.com/frame_Image/1722226819335'); 
-    // this.loadimg('https://socialmediauploadv1.s3.ap-south-1.amazonaws.com/banner/1718165539464');   
-    this.loadimg('https://socialmediauploadv1.s3.ap-south-1.amazonaws.com/Product_image/1726029088707.png');   
+    this.loadimg('https://socialmediauploadv1.s3.ap-south-1.amazonaws.com/banner/1718165539464.png');   
+    // this.loadimg('https://socialmediauploadv1.s3.ap-south-1.amazonaws.com/Product_image/1726029088707.png');   
   }
 
   // Initialize Konva stage and layer
